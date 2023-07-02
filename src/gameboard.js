@@ -1,15 +1,35 @@
+const Ship = require('./ship');
+
 class Gameboard {
   constructor() {
     this.board = this.createGameboard();
+    this.shipsOnBoard = [];
   }
 
   // returns an EMPTY 10x10 array, 0, 0 is top left
   createGameboard() {
-    this.board = new Array(10);
+    const board = new Array(10);
     for (let i = 0; i < 10; i += 1) {
-      this.board.push(new Array(10));
+      board[i] = new Array(10);
     }
-    return this.board;
+    return board;
+  }
+
+  addShipToGameboard(length, isVertical, startIndex) {
+    const newShip = new Ship(length);
+
+    const indexZero = parseInt(startIndex[0], 10);
+    const indexOne = parseInt(startIndex[1], 10);
+
+    if (isVertical === true) {
+      for (let i = indexZero; i < length; i += 1) {
+        this.board[i][indexOne] = newShip;
+      }
+    } else {
+      for (let i = indexOne; i < length; i += 1) {
+        this.board[indexZero][i] = newShip;
+      }
+    }
   }
 }
 
