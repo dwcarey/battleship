@@ -48,3 +48,43 @@ test('make valid move near other ship (> 1 square away)', () => {
   expect(testBoard.board[4][3]).toBeInstanceOf(Ship);
 
 });
+
+test('invalid shot if shot already in shotsRecevied array', () => {
+  const testBoard = new Gameboard();
+  testBoard.receiveHit([0, 0]);
+  expect(testBoard.receiveHit([0, 0])).toBe('invalid shot');
+});
+
+test('invalid shot if the shot is not on the game board', () => {
+  const testBoard = new Gameboard();
+  expect(testBoard.receiveHit([-1, 0])).toBe('invalid shot');
+  expect(testBoard.receiveHit([2, 120])).toBe('invalid shot');
+  expect(testBoard.receiveHit([45, 2])).toBe('invalid shot');
+
+});
+
+test('shot is valid but missed', () => {
+  const testBoard = new Gameboard();
+  expect(testBoard.receiveHit([0, 0])).toBe('shot missed');
+  expect(testBoard.receiveHit([2, 0])).toBe('shot missed');
+  expect(testBoard.receiveHit([5, 5])).toBe('shot missed');
+  expect(testBoard.receiveHit([6, 2])).toBe('shot missed');
+});
+
+
+test('shot is valid and hits, does not sink ship', () => {
+  const testBoard = new Gameboard();
+  testBoard.addShipToGameboard(4, false, [2, 2]);
+  expect(testBoard.receiveHit([2, 2])).toBe('hit ship');
+});
+
+test('shot is valid and hits, sinking ship', () => {
+  const testBoard = new Gameboard();
+  testBoard.addShipToGameboard(4, false, [2, 2]);
+  testBoard.receiveHit([2, 2]);
+  testBoard.receiveHit([2, 3]);
+  testBoard.receiveHit([2, 4]);
+  expect(testBoard.receiveHit([2, 5])).toBe('sunk ship');
+});
+
+

@@ -4,6 +4,7 @@ class Gameboard {
   constructor() {
     this.board = this.createGameboard();
     this.shipsOnBoard = [];
+    this.shotsReceived = [];
   }
 
   // returns an EMPTY 10x10 array, 0, 0 is top left
@@ -50,7 +51,7 @@ class Gameboard {
 
     for (let i = 0; i < positionArray.length; i += 1) {
       // for each add the surrounding squares and self
-      // to affected squares array if not already present
+      // to affected squares array
       // then check this.board for Ship objects in those positions
 
       affectedSquaresArray.push([
@@ -116,6 +117,7 @@ class Gameboard {
   addShipToGameboard(length, isVertical, startIndex) {
     if (this.isValidMove(length, isVertical, startIndex)) {
       const newShip = new Ship(length);
+      this.shipsOnBoard.push(newShip);
 
       const indexZero = parseInt(startIndex[0], 10);
       const indexOne = parseInt(startIndex[1], 10);
@@ -131,6 +133,37 @@ class Gameboard {
       }
     } return 'invalid move';
   }
+
+  receiveHit(hitLocation) {
+    const x = hitLocation[0];
+    const y = hitLocation[1];
+    for (let i = 0; i < this.shotsReceived.length; i += 1) {
+    if (x === this.shotsReceived[i][0] && y === this.shotsReceived[i][1]) {
+      return 'invalid shot';
+    }
+  }
+    this.shotsReceived.push(hitLocation);
+  }
+  //recevie attack function
+  //takes coordinates
+  //hitsRecevied includes? (has been hit before)
+  //add to hitsReceived
+  //if Ship on square;
+    //Ship.hit()
+    //ship isSunk?
+    //return 'hit ship'
+      //return 'sunk ship'
+
+    //else
+    //return 'shot missed'
+
+
+
+
+
+
+    //function to find all ships (this should already exist, shipsonboard array)
+    //function to check sunk status of all ships for end game
 }
 
 module.exports = Gameboard;
