@@ -6,7 +6,8 @@ class Ship {
   }
 
   hit() {
-    return this.hits + 1;
+    this.hits += 1;
+    return this.hits;
   }
 
   isSunk() {
@@ -17,4 +18,4 @@ class Ship {
   }
 }
 
-export { Ship };
+module.exports = Ship;
