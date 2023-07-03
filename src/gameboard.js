@@ -138,44 +138,44 @@ class Gameboard {
     const x = hitLocation[0];
     const y = hitLocation[1];
 
-    //find invalid shot (not on gameboard)
+    // find invalid shot (not on gameboard)
     if (x < 0 || x > 9 || y < 0 || y > 9) {
       return 'invalid shot';
     }
-    //find invalid shot (duiplicate shot)
+    // find invalid shot (duiplicate shot)
     for (let i = 0; i < this.shotsReceived.length; i += 1) {
-    if (x === this.shotsReceived[i][0] && y === this.shotsReceived[i][1]) {
-      return 'invalid shot';
+      if (x === this.shotsReceived[i][0] && y === this.shotsReceived[i][1]) {
+        return 'invalid shot';
+      }
     }
-  }
-  if (this.board[x][y] instanceof Ship) {
-    this.board[x][y].hit();
-    if (this.board[x][y].isSunk()) {
-      return 'sunk ship';
-    }
-    return 'hit ship';
-  }
-    //push shot to shots received array
+    // push shot to shots received array
     this.shotsReceived.push(hitLocation);
+
+    if (this.board[x][y] instanceof Ship) {
+      this.board[x][y].hit();
+      if (this.board[x][y].isSunk()) {
+        return 'sunk ship';
+      }
+      return 'hit ship';
+    }
 
     return 'shot missed';
   }
 
   allShipsSunk() {
     let sunkShips = 0;
-    let allShips = this.shipsOnBoard.length;
-  
+    const allShips = this.shipsOnBoard.length;
+
     for (let i = 0; i < allShips; i += 1) {
       const currentShip = this.shipsOnBoard[i];
-  
+
       if (currentShip.isSunk()) {
         sunkShips += 1;
       }
     }
-  
+
     return sunkShips === allShips;
   }
-  
 }
 
 module.exports = Gameboard;
