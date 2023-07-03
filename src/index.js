@@ -1,8 +1,11 @@
 import './style.css';
+import { firstDOM, gameboardDOM } from './DOMfunctions';
 
 const Gameboard = require('./gameboard');
 const Player = require('./player');
 
+//first page load, generates skeleton of website, containers and title
+firstDOM();
 // game setup
 // create gameboard with 5 ships FOR EACH player
 const playerOneGameboard = new Gameboard();
@@ -23,6 +26,10 @@ playerTwoGameboard.addShipToGameboard(2, true, [4, 2]);
 const playerOne = new Player('Player One', playerOneGameboard, false);
 // create player 2 (computer)
 const playerTwo = new Player('Player Two', playerTwoGameboard, true);
+
+//draw gameboards
+
+gameboardDOM(playerOne, playerTwo);
 
 // game over function
 function gameover(playerOneObject, playerTwoObject) {
