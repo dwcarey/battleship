@@ -21,7 +21,7 @@ class Gameboard {
 
     // ship is inside the gameboard
     if (isVertical === true) {
-      if ((length + startIndex[0]) >= 10) {
+      if ((length + startIndex[0]) > 10) {
         return false;
       }
 
@@ -34,7 +34,7 @@ class Gameboard {
     }
 
     if (isVertical === false) {
-      if ((length + startIndex[1]) >= 10) {
+      if ((length + startIndex[1]) > 10) {
         return false;
       }
 
@@ -105,7 +105,7 @@ class Gameboard {
       const y = affectedSquaresArray[j][1];
 
       if (x >= 0 && x <= 9 && y >= 0 && y <= 9) {
-        if (this.board[x].includes(Ship, y)) {
+        if (this.board[x][y] instanceof Ship) {
           return false;
         }
       }
@@ -119,15 +119,15 @@ class Gameboard {
       const newShip = new Ship(length);
       this.shipsOnBoard.push(newShip);
 
-      const indexZero = parseInt(startIndex[0], 10);
-      const indexOne = parseInt(startIndex[1], 10);
+      const indexZero = startIndex[0];
+      const indexOne = startIndex[1];
 
       if (isVertical === true) {
         for (let i = indexZero; i < length + indexZero; i += 1) {
           this.board[i][indexOne] = newShip;
         }
       } else {
-        for (let i = indexOne; i < length + indexOne; i += 1) {
+        for (let i = indexOne; i < (length + indexOne); i += 1) {
           this.board[indexZero][i] = newShip;
         }
       }
@@ -137,33 +137,45 @@ class Gameboard {
   receiveHit(hitLocation) {
     const x = hitLocation[0];
     const y = hitLocation[1];
+
+    //find invalid shot (not on gameboard)
+    if (x < 0 || x > 9 || y < 0 || y > 9) {
+      return 'invalid shot';
+    }
+    //find invalid shot (duiplicate shot)
     for (let i = 0; i < this.shotsReceived.length; i += 1) {
     if (x === this.shotsReceived[i][0] && y === this.shotsReceived[i][1]) {
       return 'invalid shot';
     }
   }
-    this.shotsReceived.push(hitLocation);
+  if (this.board[x][y] instanceof Ship) {
+    this.board[x][y].hit();
+    if (this.board[x][y].isSunk()) {
+      return 'sunk ship';
+    }
+    return 'hit ship';
   }
-  //recevie attack function
-  //takes coordinates
-  //hitsRecevied includes? (has been hit before)
-  //add to hitsReceived
-  //if Ship on square;
-    //Ship.hit()
-    //ship isSunk?
-    //return 'hit ship'
-      //return 'sunk ship'
+    //push shot to shots received array
+    this.shotsReceived.push(hitLocation);
 
-    //else
-    //return 'shot missed'
+    return 'shot missed';
+  }
 
-
-
-
-
-
-    //function to find all ships (this should already exist, shipsonboard array)
-    //function to check sunk status of all ships for end game
+  allShipsSunk() {
+    let sunkShips = 0;
+    let allShips = this.shipsOnBoard.length;
+  
+    for (let i = 0; i < allShips; i += 1) {
+      const currentShip = this.shipsOnBoard[i];
+  
+      if (currentShip.isSunk()) {
+        sunkShips += 1;
+      }
+    }
+  
+    return sunkShips === allShips;
+  }
+  
 }
 
 module.exports = Gameboard;

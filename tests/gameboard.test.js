@@ -8,6 +8,10 @@ test('add vertical ship of length to board', () => {
   expect(testBoard.board[1][0]).toBeInstanceOf(Ship);
   expect(testBoard.board[2][0]).toBeInstanceOf(Ship);
   expect(testBoard.board[3][0]).toBeInstanceOf(Ship);
+
+  testBoard.addShipToGameboard(1, true, [9, 0]);
+
+  expect(testBoard.board[9][0]).toBeInstanceOf(Ship);
 });
 
 test('add NOT vertical ship of length to board', () => {
@@ -17,6 +21,13 @@ test('add NOT vertical ship of length to board', () => {
   expect(testBoard.board[0][1]).toBeInstanceOf(Ship);
   expect(testBoard.board[0][2]).toBeInstanceOf(Ship);
   expect(testBoard.board[0][3]).toBeInstanceOf(Ship);
+  //ADDED TEST FOR SHIP THAT INCLUDES INDEX 9
+  testBoard.addShipToGameboard(4, false, [0, 6]);
+  expect(testBoard.board[0][6]).toBeInstanceOf(Ship);
+  expect(testBoard.board[0][7]).toBeInstanceOf(Ship);
+  expect(testBoard.board[0][8]).toBeInstanceOf(Ship);
+  expect(testBoard.board[0][9]).toBeInstanceOf(Ship);
+
 });
 
 test('ship is not entirely within gameboard returns invalid move', () => {
@@ -60,6 +71,7 @@ test('invalid shot if the shot is not on the game board', () => {
   expect(testBoard.receiveHit([-1, 0])).toBe('invalid shot');
   expect(testBoard.receiveHit([2, 120])).toBe('invalid shot');
   expect(testBoard.receiveHit([45, 2])).toBe('invalid shot');
+  expect(testBoard.receiveHit([10, 2])).toBe('invalid shot');
 
 });
 
@@ -88,3 +100,33 @@ test('shot is valid and hits, sinking ship', () => {
 });
 
 
+test('check that ships can be added to board, sunk and then gameboard can report all ships sunk', () => {
+  const testBoard = new Gameboard();
+  testBoard.addShipToGameboard(4, false, [2, 2]);
+  testBoard.receiveHit([2, 2]);
+  testBoard.receiveHit([2, 3]);
+  testBoard.receiveHit([2, 4]);
+  expect(testBoard.receiveHit([2, 5])).toBe('sunk ship');
+
+  testBoard.addShipToGameboard(4, true, [4, 3]);
+  testBoard.receiveHit([4, 3]);
+  testBoard.receiveHit([5, 3]);
+  expect(testBoard.receiveHit([6, 3])).toBe('hit ship');
+  expect(testBoard.receiveHit([7, 3])).toBe('sunk ship');
+
+  //current board contains 2 sunk ships, all sunk = true
+  expect(testBoard.allShipsSunk()).toBe(true);
+
+  //add ship
+  testBoard.addShipToGameboard(3, false, [6, 6]);
+
+  //board now contains 2 sunk ships and 1 new ship, all sunk = false
+  expect(testBoard.allShipsSunk()).toBe(false);
+
+  testBoard.receiveHit([6, 6]);
+  testBoard.receiveHit([6, 7]);
+  expect(testBoard.receiveHit([6, 8])).toBe('sunk ship');
+
+  //3rd ship is now sunk, all sunk = true
+  expect(testBoard.allShipsSunk()).toBe(true);
+});
