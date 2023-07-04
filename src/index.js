@@ -33,22 +33,6 @@ const playerTwo = new Player('Player Two', playerTwoGameboard, true);
 
 gameboardDOM(playerOne, playerTwo);
 drawShips(playerOne);
-playerOneGameboard.receiveHit([1, 1]);
-playerOneGameboard.receiveHit([2, 2]);
-playerOneGameboard.receiveHit([3, 3]);
-playerOneGameboard.receiveHit([4, 4]);
-playerOneGameboard.receiveHit([5, 5]);
-playerOneGameboard.receiveHit([6, 6]);
-playerOneGameboard.receiveHit([7, 7]);
-
-playerTwoGameboard.receiveHit([1, 1]);
-playerTwoGameboard.receiveHit([2, 2]);
-playerTwoGameboard.receiveHit([3, 3]);
-playerTwoGameboard.receiveHit([4, 4]);
-playerTwoGameboard.receiveHit([5, 5]);
-playerTwoGameboard.receiveHit([6, 6]);
-playerTwoGameboard.receiveHit([7, 7]);
-drawHits(playerOne, playerTwo);
 
 // game over function
 function gameover(playerOneObject, playerTwoObject) {
@@ -64,24 +48,37 @@ function gameover(playerOneObject, playerTwoObject) {
 // start game loop
 // while function that checks for both allshipssunk is null
 
-function gameLoop() {
-  if (gameover(playerOne, playerTwo) === null) {
-    playerTwo.board.receiveHit(playerOne.getTurnCoordinates());
-    console.log(playerTwo.board);
-    drawHits(playerOne, playerTwo);
-    playerOne.board.receiveHit(playerTwo.getTurnCoordinates());
-    console.log(playerOne.board);
-    drawHits(playerOne, playerTwo);
+async function gameLoop() {
+  while (gameover(playerOne, playerTwo) === null) {
+    // Player One's turn
+    await playerTurn(playerOne, playerTwo);
 
-    requestAnimationFrame(gameLoop); // Schedule the next iteration
-  } else {
-    // Game over
-    if (gameover(playerOne, playerTwo) === playerOne) {
-      alert('Player One Wins');
-    } else if (gameover(playerOne, playerTwo) === playerTwo) {
-      alert('Player Two Wins');
+    if (gameover(playerOne, playerTwo) !== null) {
+      break; // Exit the loop if the game is over
     }
+
+    // Player Two's turn
+    await playerTurn(playerTwo, playerOne);
+  }
+
+  // Game over
+  if (gameover(playerOne, playerTwo) === playerOne) {
+    alert('Player One Wins');
+  } else if (gameover(playerOne, playerTwo) === playerTwo) {
+    alert('Player Two Wins');
   }
 }
 
-requestAnimationFrame(gameLoop); // Start the game loop
+async function playerTurn(currentPlayer, opponent) {
+  const coords = await currentPlayer.getTurnCoordinates(opponent);
+  opponent.board.receiveHit(coords);
+  drawHits(playerOne, playerTwo);
+
+  if (!currentPlayer.isComputerPlayer) {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  }
+
+}
+
+gameLoop(); // Start the game loop
+
