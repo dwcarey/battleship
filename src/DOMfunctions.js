@@ -1,3 +1,5 @@
+const Ship = require('./ship');
+
 function firstDOM() {
   const contentContainer = document.createElement('div');
   contentContainer.id = 'contentContainer';
@@ -43,33 +45,32 @@ function gameboardDOM(playerOne, playerTwo) {
     const rowHolder = document.createElement('div');
     rowHolder.id = `rowHolder-${i}`;
     rowHolder.classList.add('rowHolder');
-    
+
     for (let j = 0; j < playerOne.board.board[i].length; j += 1) {
       const square = document.createElement('div');
       square.id = `square-${i}-${j}`;
       square.classList.add('square');
       rowHolder.appendChild(square);
     }
-    
+
     playerOneBoardContainer.appendChild(rowHolder);
   }
 
   const mainPlayerOneContainer = document.getElementById('playerOneGameboardContainer');
   mainPlayerOneContainer.appendChild(playerOneBoardContainer);
 
-
   for (let i = 0; i < playerTwo.board.board.length; i += 1) {
     const rowHolder = document.createElement('div');
     rowHolder.id = `rowHolder-${i}`;
     rowHolder.classList.add('rowHolder');
-    
+
     for (let j = 0; j < playerTwo.board.board[i].length; j += 1) {
       const square = document.createElement('div');
-      square.id = `square-${i}-${j}`;
+      square.id = `2square-${i}-${j}`;
       square.classList.add('square');
       rowHolder.appendChild(square);
     }
-    
+
     playerTwoBoardContainer.appendChild(rowHolder);
   }
 
@@ -77,4 +78,48 @@ function gameboardDOM(playerOne, playerTwo) {
   mainPlayerTwoContainer.appendChild(playerTwoBoardContainer);
 }
 
-export { firstDOM, gameboardDOM };
+function drawShips(playerOne) {
+  for (let i = 0; i < playerOne.board.board.length; i += 1) {
+    for (let j = 0; j < playerOne.board.board[i].length; j += 1) {
+      const currentSquare = playerOne.board.board[i][j];
+      const currentSquareDOM = document.getElementById(`square-${i}-${j}`);
+      if (currentSquare instanceof Ship) {
+        currentSquareDOM.classList.add('shipSquare');
+      }
+    }
+  }
+}
+
+function drawHits(playerOne, playerTwo) {
+  for (let i = 0; i < playerOne.board.board.length; i += 1) {
+    for (let j = 0; j < playerOne.board.board[i].length; j += 1) {
+      const currentSquarePlayerOne = playerOne.board.board[i][j];
+      const currentSquarePlayerTwo = playerTwo.board.board[i][j];
+      const currentSquarePlayerOneDOM = document.getElementById(`square-${i}-${j}`);
+      const currentSquarePlayerTwoDOM = document.getElementById(`2square-${i}-${j}`);
+      
+      // Player One
+      if (playerOne.board.shotsReceived.some((coords) => coords[0] === i && coords[1] === j)) {
+        if (currentSquarePlayerOne instanceof Ship) {
+          currentSquarePlayerOneDOM.classList.add('hitShipSquare');
+        } else {
+          currentSquarePlayerOneDOM.classList.add('missedSquare');
+        }
+      }
+      
+      // Player Two
+      if (playerTwo.board.shotsReceived.some((coords) => coords[0] === i && coords[1] === j)) {
+        if (currentSquarePlayerTwo instanceof Ship) {
+          currentSquarePlayerTwoDOM.classList.add('hitShipSquare');
+        } else {
+          currentSquarePlayerTwoDOM.classList.add('missedSquare');
+        }
+      }
+    }
+  }
+}
+
+
+export {
+  firstDOM, gameboardDOM, drawShips, drawHits,
+};

@@ -18,11 +18,15 @@ body {
   justify-content: center;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+.gameboardContainer > div {
+  border: 1px solid rgb(19, 19, 19);
+}
 
 .gameboardContainer {
   grid-column: span 1;
   display: flex;
   justify-content: center;
+
 }
 
 .rowHolder {
@@ -36,8 +40,20 @@ body {
 }
 
 .square {
-  background-color: rgb(0, 255, 136);
-  border: 1px solid rgb(174, 0, 255);
+  background-color: rgb(12, 166, 255);
+  border: 1px solid rgb(19, 19, 19);
   width: 3vw;
   height: 3vw;
+}
+
+.shipSquare {
+  background-color: rgb(24, 24, 24);
+}
+
+.hitShipSquare {
+  background-color: rgb(173, 0, 0);
+}
+
+.missedSquare {
+  background-color: rgb(0, 255, 85);
 }
