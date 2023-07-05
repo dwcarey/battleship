@@ -176,6 +176,69 @@ class Gameboard {
 
     return sunkShips === allShips;
   }
+
+  getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  generateComputerPositions(board) {
+    //add two 3 length ships
+    while (board.shipsOnBoard.length < 2) {
+      let resultVertical = true;
+    const decideVertical = this.getRandomInt(2);
+
+    if (decideVertical === 0) {
+      resultVertical = false;
+    }
+
+    const firstCoord = this.getRandomInt(10);
+    const secondCoord = this.getRandomInt(10);
+
+    board.addShipToGameboard(3, resultVertical, [firstCoord, secondCoord]);
+    }
+    //add another ship of 2 length
+    while (board.shipsOnBoard.length < 3) {
+      let resultVertical = true;
+    const decideVertical = this.getRandomInt(2);
+
+    if (decideVertical === 0) {
+      resultVertical = false;
+    }
+
+    const firstCoord = this.getRandomInt(10);
+    const secondCoord = this.getRandomInt(10);
+
+    board.addShipToGameboard(2, resultVertical, [firstCoord, secondCoord]);
+    }
+    //add another ship of 4 length
+    while (board.shipsOnBoard.length < 4) {
+      let resultVertical = true;
+    const decideVertical = this.getRandomInt(2);
+
+    if (decideVertical === 0) {
+      resultVertical = false;
+    }
+
+    const firstCoord = this.getRandomInt(10);
+    const secondCoord = this.getRandomInt(10);
+
+    board.addShipToGameboard(4, resultVertical, [firstCoord, secondCoord]);
+    }
+    //add the last ship of 5 length
+    while (board.shipsOnBoard.length < 5) {
+      let resultVertical = true;
+    const decideVertical = this.getRandomInt(2);
+
+    if (decideVertical === 0) {
+      resultVertical = false;
+    }
+
+    const firstCoord = this.getRandomInt(10);
+    const secondCoord = this.getRandomInt(10);
+
+    board.addShipToGameboard(5, resultVertical, [firstCoord, secondCoord]);
+    }
+  }
 }
 
 module.exports = Gameboard;

@@ -1,3 +1,5 @@
+const Gameboard = require('../src/gameboard');
+
 class Player {
   constructor(playerName, board, isComputerPlayer) {
     this.playerName = playerName;
@@ -7,10 +9,9 @@ class Player {
 
   getTurnCoordinates(opponent) {
     if (this.isComputerPlayer) {
-      const { shotsReceived } = opponent.board; // Get the opponent's shots received array
+      const { shotsReceived } = opponent.board;
       const availableCoordinates = [];
 
-      // Iterate over all possible coordinates and check if they are already in the shots received array
       for (let a = 0; a < 10; a += 1) {
         for (let b = 0; b < 10; b += 1) {
           const coordinate = [a, b];
@@ -21,7 +22,7 @@ class Player {
       }
 
       if (availableCoordinates.length === 0) {
-        throw new Error('No available coordinates'); // Handle the case where all coordinates have been tried
+        throw new Error('No available coordinates'); 
       }
 
       const randomIndex = Math.floor(Math.random() * availableCoordinates.length);
@@ -50,6 +51,26 @@ class Player {
 
       targetGameboard.addEventListener('click', handleClick);
     });
+  }
+
+  getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  generateComputerPositions(board) {
+    while (board.shipsOnBoard.length < 5) {
+      let resultVertical = true;
+    const decideVertical = this.getRandomInt(2);
+
+    if (decideVertical === 0) {
+      resultVertical = false;
+    }
+
+    const firstCoord = this.getRandomInt(10);
+    const secondCoord = this.getRandomInt(10);
+
+    board.addShipToGameboard(2, resultVertical, [firstCoord, secondCoord]);
+    }
   }
 }
 

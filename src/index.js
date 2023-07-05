@@ -1,5 +1,6 @@
 import './style.css';
 import {
+  dragDropDOM,
   drawHits, drawShips, firstDOM, gameboardDOM,
 } from './DOMfunctions';
 
@@ -12,17 +13,12 @@ firstDOM();
 // create gameboard with 5 ships FOR EACH player
 const playerOneGameboard = new Gameboard();
 playerOneGameboard.addShipToGameboard(5, false, [1, 1]);
-playerOneGameboard.addShipToGameboard(3, false, [7, 1]);
-playerOneGameboard.addShipToGameboard(4, true, [1, 7]);
-playerOneGameboard.addShipToGameboard(3, true, [7, 8]);
-playerOneGameboard.addShipToGameboard(2, true, [4, 2]);
 
 const playerTwoGameboard = new Gameboard();
-playerTwoGameboard.addShipToGameboard(5, false, [1, 1]);
-playerTwoGameboard.addShipToGameboard(3, false, [7, 4]);
-playerTwoGameboard.addShipToGameboard(4, true, [1, 7]);
-playerTwoGameboard.addShipToGameboard(3, true, [7, 8]);
-playerTwoGameboard.addShipToGameboard(2, true, [4, 2]);
+playerTwoGameboard.generateComputerPositions(playerTwoGameboard);
+console.log(playerTwoGameboard);
+//while playertwo gameboard has < 5 shipsonboard, generate random coords and add as ship
+//will do nothing if ship is invalid move and continue until shipsonboard < 5 is false
 
 // create player 1
 const playerOne = new Player('Player One', playerOneGameboard, false);
@@ -32,6 +28,7 @@ const playerTwo = new Player('Player Two', playerTwoGameboard, true);
 // draw gameboards
 
 gameboardDOM(playerOne, playerTwo);
+dragDropDOM();
 drawShips(playerOne);
 
 // game over function

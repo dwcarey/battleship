@@ -1,3 +1,53 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*
+
+
+
+*/
+
 body {
   display: flex;
   justify-content: center;
@@ -9,13 +59,16 @@ body {
   width: 80vw;
   background-color: aqua;
   border: 3px solid red;
+  justify-items: center;
 }
 
 #titleContainer {
+  height: 15vh;
   grid-column: span 2;
   font-size: 5vw;
   display: flex;
   justify-content: center;
+  align-items: center;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .gameboardContainer > div {
@@ -37,6 +90,20 @@ body {
   display: flex;
   justify-content: space-evenly;
   font-size: 2vw;
+  width: 75vw;
+}
+
+#dragDropContainer {
+  grid-column: span 2;
+  height: 18vw;
+  width: 70vw;
+  margin-bottom: 3vh;
+  background-color: rgb(88, 211, 50);
+  border: 3px solid rgb(255, 238, 0);
+
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(2, 1fr);
 }
 
 .square {
@@ -56,4 +123,50 @@ body {
 
 .missedSquare {
   background-color: rgb(0, 255, 85);
+}
+
+#confirmButton {
+  grid-row-start: 2;
+  grid-column-start: 1;
+  grid-column: span 2;
+}
+
+.dragShip {
+  grid-row: span 2;
+  background-color: rgb(24, 24, 24);
+  width: 3vw;
+  grid-column: span 1;
+}
+
+.hide {
+  display: none;
+}
+
+#ship2 {
+  height: 6vw;
+  grid-column-start: 3;
+}
+
+#ship3x1 {
+  height: 9vw;
+  grid-column-start: 4;
+}
+
+#ship3x2 {
+  height: 9vw;
+  grid-column-start: 5;
+}
+
+#ship4 {
+  height: 12vw;
+  grid-column-start: 6;
+}
+
+#ship5 {
+  height: 15vw;
+  grid-column-start: 7;
+}
+
+.drag-over {
+  border: dashed 3px red;
 }
