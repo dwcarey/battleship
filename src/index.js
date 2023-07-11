@@ -1,6 +1,7 @@
 import './style.css';
 import {
-  drawHits, drawShips, firstDOM, gameboardDOM, playerNameForm, getComputerName,
+  drawHits, drawShips, firstDOM, gameboardDOM,
+  playerNameForm, getComputerName, playerMovesForm,
 } from './DOMfunctions';
 
 const Gameboard = require('./gameboard');
@@ -12,7 +13,25 @@ let playerTwo;
 async function setupPlayers(playerName) {
   // Create gameboard with 5 ships FOR EACH player
   const playerOneGameboard = new Gameboard();
-  playerOneGameboard.addShipToGameboard(5, false, [1, 1]);
+
+  const playerMoves = await playerMovesForm();
+  // await get player moves function which will;
+  // create DOM elements for the players empty gameboard
+  // create a Vertical? checkbox
+  // create a submit button which returns an array(5) structured like follows;
+  //  [ [ length: Number, isVertical: Boolean, [coord1, coord2] ], next item ]
+  // for loop array 5 to add ships to player gameboard
+  // playerOneGameboard.addShipToGameboard(5, false, [1, 1]);
+
+  console.log(playerMoves);
+
+  for (let i = 0; i < playerMoves.length; i += 1) {
+    const length = playerMoves[i][0];
+    const isVertical = playerMoves[i][1];
+    const startCoord = playerMoves[i][2];
+
+    playerOneGameboard.addShipToGameboard(length, isVertical, startCoord);
+  }
 
   const playerTwoGameboard = new Gameboard();
   playerTwoGameboard.generateComputerPositions(playerTwoGameboard);

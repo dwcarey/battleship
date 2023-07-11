@@ -1,4 +1,5 @@
 const Ship = require('./ship');
+const Gameboard = require('./gameboard');
 
 function firstDOM() {
   const contentContainer = document.createElement('div');
@@ -137,6 +138,7 @@ function playerNameForm() {
     playerNameInput.type = 'text';
     playerNameInput.name = 'playerName';
     playerNameInput.placeholder = 'Enter your name';
+    playerNameInput.maxLength = 30;
     form.appendChild(playerNameInput);
 
     // Create the submit button
@@ -208,6 +210,54 @@ function getComputerName() {
   return computerName;
 }
 
+function playerMovesForm() {
+  return new Promise((resolve, reject) => {
+    // Create the form container
+    const formContainer = document.createElement('div');
+    formContainer.classList.add('formContainer');
+
+    // Create the backing overlay
+    const overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+
+    // Create the form element
+    const form = document.createElement('form');
+
+    // Create the submit button
+    const submitButton = document.createElement('input');
+    submitButton.type = 'submit';
+    submitButton.value = 'Submit';
+    form.appendChild(submitButton);
+
+    // Add the form to the form container
+    formContainer.appendChild(form);
+
+    // Add the form container and overlay to the document body
+    document.body.appendChild(formContainer);
+    document.body.appendChild(overlay);
+
+    // Handle form submission
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent form submission
+
+      const playerMoves = [
+        [5, true, [0, 0]],
+        [4, true, [0, 2]],
+        [3, true, [0, 4]],
+        [3, true, [0, 6]],
+        [2, true, [0, 8]],
+      ];
+
+      // Remove the form and overlay from the document
+      formContainer.remove();
+      overlay.remove();
+
+      resolve(playerMoves);
+    });
+  });
+}
+
 export {
-  firstDOM, gameboardDOM, drawShips, drawHits, playerNameForm, getComputerName,
+  firstDOM, gameboardDOM, drawShips, drawHits,
+  playerNameForm, getComputerName, playerMovesForm,
 };

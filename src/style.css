@@ -87,18 +87,32 @@ body {
 }
 #informationContainer {
   grid-column: span 2;
-  display: flex;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: 35vw 5vw 35vw;
+  text-align: center;
   font-size: 2vw;
   width: 75vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
 }
 
+#playerTwoGameboardContainer > div > div > div.square:hover {
+  background-color: rgb(238, 174, 0);
+}
 
 .square {
   background-color: rgb(12, 166, 255);
   border: 1px solid rgb(19, 19, 19);
   width: 3vw;
   height: 3vw;
+}
+
+#playerTwoGameboardContainer > div > div > div.square.hitShipSquare {
+  background-color: rgb(173, 0, 0);
+}
+
+#playerTwoGameboardContainer > div > div > div.square.missedSquare {
+  background-color: rgb(0, 255, 85);
 }
 
 .shipSquare {
@@ -131,4 +145,3 @@ body {
   background-color: blueviolet;
   border: 3px solid rgb(9, 7, 12);
 }
-
