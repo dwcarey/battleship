@@ -6,9 +6,6 @@ function firstDOM() {
   const titleContainer = document.createElement('div');
   titleContainer.id = 'titleContainer';
 
-  const dragDropContainer = document.createElement('div');
-  dragDropContainer.id = 'dragDropContainer';
-
   const titleText = document.createElement('h1');
   titleText.textContent = 'BATTLESHIP';
   titleContainer.appendChild(titleText);
@@ -22,59 +19,11 @@ function firstDOM() {
   informationContainer.id = 'informationContainer';
 
   contentContainer.appendChild(titleContainer);
-  contentContainer.appendChild(dragDropContainer);
   contentContainer.appendChild(playerOneGameboardContainer);
   contentContainer.appendChild(playerTwoGameboardContainer);
   contentContainer.appendChild(informationContainer);
 
   document.body.appendChild(contentContainer);
-
-
-  const verticalCheckbox = document.createElement('input');
-  verticalCheckbox.setAttribute('type', 'checkbox');
-  verticalCheckbox.id = 'verticalCheckbox';
-
-  const verticalText = document.createElement('h3');
-  verticalText.textContent = 'Vertical?';
-
-  const confirmButton = document.createElement('button');
-  confirmButton.type = 'button';
-  confirmButton.id = 'confirmButton';
-  confirmButton.textContent = 'Confirm';
-
-  const ship5 = document.createElement('div');
-  ship5.id = 'ship5';
-  ship5.classList.add('dragShip');
-  ship5.setAttribute('draggable', 'true');
-
-  const ship4 = document.createElement('div');
-  ship4.id = 'ship4';
-  ship4.classList.add('dragShip');
-  ship4.setAttribute('draggable', 'true');
-
-  const ship3x1 = document.createElement('div');
-  ship3x1.id = 'ship3x1';
-  ship3x1.classList.add('dragShip');
-  ship3x1.setAttribute('draggable', 'true');
-
-  const ship3x2 = document.createElement('div');
-  ship3x2.id = 'ship3x2';
-  ship3x2.classList.add('dragShip');
-  ship3x2.setAttribute('draggable', 'true');
-
-  const ship2 = document.createElement('div');
-  ship2.id = 'ship2';
-  ship2.classList.add('dragShip');
-  ship2.setAttribute('draggable', 'true');
-
-  dragDropContainer.appendChild(verticalCheckbox);
-  dragDropContainer.appendChild(confirmButton);
-  dragDropContainer.appendChild(verticalText);
-  dragDropContainer.appendChild(ship2);
-  dragDropContainer.appendChild(ship3x1);
-  dragDropContainer.appendChild(ship3x2);
-  dragDropContainer.appendChild(ship4);
-  dragDropContainer.appendChild(ship5);
 }
 
 function gameboardDOM(playerOne, playerTwo) {
@@ -170,61 +119,95 @@ function drawHits(playerOne, playerTwo) {
     }
   }
 }
+function playerNameForm() {
+  return new Promise((resolve, reject) => {
+    // Create the form container
+    const formContainer = document.createElement('div');
+    formContainer.classList.add('formContainer');
 
-function dragDropDOM() {
-  // add player ships UI box - dragDropContainer
-const draggableShips = document.querySelectorAll('.dragShip');
+    // Create the backing overlay
+    const overlay = document.createElement('div');
+    overlay.classList.add('overlay');
 
-function dragStart(e) {
- e.dataTransfer.setData('text/plain', e.target.id);
- setTimeout(() => {
-   e.target.classList.add('hide');
- }, 0);
+    // Create the form element
+    const form = document.createElement('form');
+
+    // Create the text input for the player name
+    const playerNameInput = document.createElement('input');
+    playerNameInput.type = 'text';
+    playerNameInput.name = 'playerName';
+    playerNameInput.placeholder = 'Enter your name';
+    form.appendChild(playerNameInput);
+
+    // Create the submit button
+    const submitButton = document.createElement('input');
+    submitButton.type = 'submit';
+    submitButton.value = 'Submit';
+    form.appendChild(submitButton);
+
+    // Add the form to the form container
+    formContainer.appendChild(form);
+
+    // Add the form container and overlay to the document body
+    document.body.appendChild(formContainer);
+    document.body.appendChild(overlay);
+
+    // Handle form submission
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent form submission
+
+      const playerName = playerNameInput.value;
+
+      // Remove the form and overlay from the document
+      formContainer.remove();
+      overlay.remove();
+
+      resolve(playerName);
+    });
+  });
 }
 
-draggableShips.forEach((ship) => {
- ship.addEventListener('dragstart', dragStart);
-});
+function getComputerName() {
+  let computerName;
 
-const squares = document.querySelectorAll('.square');
+  switch (Math.floor(Math.random() * 10)) {
+    case 0:
+      computerName = 'Computerina';
+      break;
+    case 1:
+      computerName = 'Moustopher';
+      break;
+    case 2:
+      computerName = 'Deskelle';
+      break;
+    case 3:
+      computerName = 'Monitorette';
+      break;
+    case 4:
+      computerName = 'Keyboardantha';
+      break;
+    case 5:
+      computerName = 'Codella';
+      break;
+    case 6:
+      computerName = 'Netalie';
+      break;
+    case 7:
+      computerName = 'Browsedith';
+      break;
+    case 8:
+      computerName = 'Datathony';
+      break;
+    case 9:
+      computerName = 'Aaram';
+      break;
+    default:
+      computerName = 'Unknown';
+  }
 
-squares.forEach(((square) => {
- square.addEventListener('dragenter', dragEnter);
- square.addEventListener('dragover', dragOver);
- square.addEventListener('dragleave', dragLeave);
- square.addEventListener('drop', drop);
-}));
-
-function dragEnter(e) {
- e.preventDefault();
- e.target.classList.add('drag-over');
-}
-
-function dragOver(e) {
- e.preventDefault();
- e.target.classList.add('drag-over');
-}
-
-function dragLeave(e) {
- e.target.classList.remove('drag-over');
-}
-
-function drop(e) {
- e.target.classList.remove('drag-over');
-
- // get the draggable element
- const id = e.dataTransfer.getData('text/plain');
- const draggable = document.getElementById(id);
-
- // add it to the drop target
- console.log(draggable);
- e.target.appendChild(draggable);
-
- // display the draggable element
- draggable.classList.remove('hide');
-}
+  return computerName;
 }
 
 export {
-  firstDOM, gameboardDOM, drawShips, drawHits, dragDropDOM,
+  firstDOM, gameboardDOM, drawShips, drawHits, playerNameForm, getComputerName,
 };

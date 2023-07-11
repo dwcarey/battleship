@@ -1,51 +1,62 @@
 import './style.css';
 import {
-  dragDropDOM,
-  drawHits, drawShips, firstDOM, gameboardDOM,
+  drawHits, drawShips, firstDOM, gameboardDOM, playerNameForm, getComputerName,
 } from './DOMfunctions';
 
 const Gameboard = require('./gameboard');
 const Player = require('./player');
 
-// first page load, generates skeleton of website, containers and title
-firstDOM();
-// game setup
-// create gameboard with 5 ships FOR EACH player
-const playerOneGameboard = new Gameboard();
-playerOneGameboard.addShipToGameboard(5, false, [1, 1]);
+let playerOne;
+let playerTwo;
 
-const playerTwoGameboard = new Gameboard();
-playerTwoGameboard.generateComputerPositions(playerTwoGameboard);
-console.log(playerTwoGameboard);
-//while playertwo gameboard has < 5 shipsonboard, generate random coords and add as ship
-//will do nothing if ship is invalid move and continue until shipsonboard < 5 is false
+async function setupPlayers(playerName) {
+  // Create gameboard with 5 ships FOR EACH player
+  const playerOneGameboard = new Gameboard();
+  playerOneGameboard.addShipToGameboard(5, false, [1, 1]);
 
-// create player 1
-const playerOne = new Player('Player One', playerOneGameboard, false);
-// create player 2 (computer)
-const playerTwo = new Player('Player Two', playerTwoGameboard, true);
+  const playerTwoGameboard = new Gameboard();
+  playerTwoGameboard.generateComputerPositions(playerTwoGameboard);
+  console.log(playerTwoGameboard);
+  const computerName = getComputerName();
 
-// draw gameboards
+  // Create player 1
+  playerOne = new Player(playerName, playerOneGameboard, false);
+  // Create player 2 (computer)
+  playerTwo = new Player(computerName, playerTwoGameboard, true);
 
-gameboardDOM(playerOne, playerTwo);
-dragDropDOM();
-drawShips(playerOne);
+  // Draw gameboards
+  gameboardDOM(playerOne, playerTwo);
+  drawShips(playerOne);
+}
 
-// game over function
+async function gameSetup() {
+  // First page load, generates skeleton of website, containers, and title
+  firstDOM();
+
+  // To start the game, collect the player name
+  const playerName = await playerNameForm();
+  console.log('Player Name:', playerName);
+
+  await setupPlayers(playerName);
+
+  // Start the game loop
+  gameLoop(playerOne, playerTwo);
+}
+
+// Game over function
 function gameover(playerOneObject, playerTwoObject) {
   if (playerOneObject.board.allShipsSunk()) {
-    return playerTwo;
+    return playerTwoObject;
   }
   if (playerTwoObject.board.allShipsSunk()) {
-    return playerOne;
+    return playerOneObject;
   }
 
   return null;
 }
-// start game loop
-// while function that checks for both allshipssunk is null
 
-async function gameLoop() {
+// Start game loop
+async function gameLoop(playerOne, playerTwo) {
   while (gameover(playerOne, playerTwo) === null) {
     // Player One's turn
     await playerTurn(playerOne, playerTwo);
@@ -74,8 +85,7 @@ async function playerTurn(currentPlayer, opponent) {
   if (!currentPlayer.isComputerPlayer) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }
-
 }
 
-gameLoop(); // Start the game loop
-
+// Call the gameSetup function to initiate the game
+gameSetup();
