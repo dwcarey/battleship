@@ -210,6 +210,20 @@ function getComputerName() {
   return computerName;
 }
 
+
+    // Declare and initialize the isVertical variable
+    let isVertical = false;
+    
+// Create the ship display element
+const shipDisplay = document.createElement('div');
+shipDisplay.classList.add('shipDisplay');
+
+// Helper function to update the ship display class
+function updateShipDisplay(shipSize) {
+  shipDisplay.className = `shipDisplay ship-${shipSize} ${isVertical ? 'vertical' : 'horizontal'}`;
+}
+
+// Create the playerMovesForm function
 function playerMovesForm(gameboard) {
   return new Promise((resolve, reject) => {
     // Create the form container
@@ -230,44 +244,77 @@ function playerMovesForm(gameboard) {
     document.body.appendChild(formContainer);
     document.body.appendChild(overlay);
 
-    // generate DOM elements for gameboard
-
+    // Generate DOM elements for gameboard
     const playerOneBoardContainer = document.createElement('div');
-  
+
+
+    // Helper function to create square elements
+    function createSquare(row, column) {
+      const square = document.createElement('div');
+      square.id = `square-${row}-${column}`;
+      square.classList.add('square');
+
+      // Add event listener for ship placement
+      square.addEventListener('click', () => {
+        const shipSize = gameboard.shipsOnBoard.length < 5 ? [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length] : null;
+        const coordinates = [row, column];
+        
+        if (shipSize && gameboard.isValidMove(shipSize, isVertical, coordinates)) {
+          gameboard.addShipToGameboard(shipSize, isVertical, coordinates);
+
+          // Update the ship display based on the placed ship
+          updateShipDisplay(shipSize);
+
+          // Check if all ships have been placed
+          if (gameboard.shipsOnBoard.length === 5) {
+            // Clean up UI
+            formContainer.remove();
+            overlay.remove();
+
+            // Resolve the promise with the updated gameboard
+            resolve(gameboard);
+          }
+        }
+      });
+
+      return square;
+    }
+
     for (let i = 0; i < gameboard.board.length; i += 1) {
       const rowHolder = document.createElement('div');
       rowHolder.id = `rowHolder-${i}`;
       rowHolder.classList.add('rowHolder');
-  
+
       for (let j = 0; j < gameboard.board[i].length; j += 1) {
-        const square = document.createElement('div');
-        square.id = `square-${i}-${j}`;
-        square.classList.add('square');
+        const square = createSquare(i, j);
         rowHolder.appendChild(square);
       }
-  
+
       playerOneBoardContainer.appendChild(rowHolder);
     }
 
+    // Create the "Is Vertical?" button
+    const toggleButton = document.createElement('button');
+    toggleButton.textContent = 'Is Vertical?';
+    toggleButton.addEventListener('click', () => {
+      isVertical = !isVertical; // Toggle the boolean value
+    });
+
+    // Append the ship display to the form container
+    formContainer.appendChild(shipDisplay);
+
+    // Append the toggle button to the form container
+    formContainer.appendChild(toggleButton);
+
+    // Append the playerOneBoardContainer to the form container
     formContainer.appendChild(playerOneBoardContainer);
-
-
-    // (async function???)
-
-      // present each ship, longest first, for placement on to the gameboard
-      // requires an "is vertical?" button switching the boolean isvertical value
-      // clicking the square should first check if valid move
-      // then run below with data from square clicked
-      // "gameboard.addShipToGameboard(5, false, [1, 1]);"
-
-    // Handle form "submission"    
-
-    formContainer.remove();
-    overlay.remove();
-
-    resolve(gameboard);
   });
 }
+
+
+
+
+
 
 export {
   firstDOM, gameboardDOM, drawShips, drawHits,

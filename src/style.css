@@ -145,3 +145,24 @@ body {
   background-color: blueviolet;
   border: 3px solid rgb(9, 7, 12);
 }
+
+.shipDisplay {
+  width: 10vh;
+  height: 10vh;
+}
+
+.ship-5 {
+  background-color: aliceblue;
+}
+
+.ship-4 {
+  background-color: rgb(190, 11, 190);
+}
+
+.ship-3 {
+  background-color: rgb(157, 255, 0);
+}
+
+.ship-2 {
+  background-color: rgb(164, 144, 255);
+}
