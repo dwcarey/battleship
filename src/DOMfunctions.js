@@ -210,7 +210,7 @@ function getComputerName() {
   return computerName;
 }
 
-function playerMovesForm() {
+function playerMovesForm(gameboard) {
   return new Promise((resolve, reject) => {
     // Create the form container
     const formContainer = document.createElement('div');
@@ -223,12 +223,6 @@ function playerMovesForm() {
     // Create the form element
     const form = document.createElement('form');
 
-    // Create the submit button
-    const submitButton = document.createElement('input');
-    submitButton.type = 'submit';
-    submitButton.value = 'Submit';
-    form.appendChild(submitButton);
-
     // Add the form to the form container
     formContainer.appendChild(form);
 
@@ -236,24 +230,42 @@ function playerMovesForm() {
     document.body.appendChild(formContainer);
     document.body.appendChild(overlay);
 
-    // Handle form submission
-    form.addEventListener('submit', (event) => {
-      event.preventDefault(); // Prevent form submission
+    // generate DOM elements for gameboard
 
-      const playerMoves = [
-        [5, true, [0, 0]],
-        [4, true, [0, 2]],
-        [3, true, [0, 4]],
-        [3, true, [0, 6]],
-        [2, true, [0, 8]],
-      ];
+    const playerOneBoardContainer = document.createElement('div');
+  
+    for (let i = 0; i < gameboard.board.length; i += 1) {
+      const rowHolder = document.createElement('div');
+      rowHolder.id = `rowHolder-${i}`;
+      rowHolder.classList.add('rowHolder');
+  
+      for (let j = 0; j < gameboard.board[i].length; j += 1) {
+        const square = document.createElement('div');
+        square.id = `square-${i}-${j}`;
+        square.classList.add('square');
+        rowHolder.appendChild(square);
+      }
+  
+      playerOneBoardContainer.appendChild(rowHolder);
+    }
 
-      // Remove the form and overlay from the document
-      formContainer.remove();
-      overlay.remove();
+    formContainer.appendChild(playerOneBoardContainer);
 
-      resolve(playerMoves);
-    });
+
+    // (async function???)
+
+      // present each ship, longest first, for placement on to the gameboard
+      // requires an "is vertical?" button switching the boolean isvertical value
+      // clicking the square should first check if valid move
+      // then run below with data from square clicked
+      // "gameboard.addShipToGameboard(5, false, [1, 1]);"
+
+    // Handle form "submission"    
+
+    formContainer.remove();
+    overlay.remove();
+
+    resolve(gameboard);
   });
 }
 

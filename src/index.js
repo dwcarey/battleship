@@ -14,24 +14,11 @@ async function setupPlayers(playerName) {
   // Create gameboard with 5 ships FOR EACH player
   const playerOneGameboard = new Gameboard();
 
-  const playerMoves = await playerMovesForm();
-  // await get player moves function which will;
-  // create DOM elements for the players empty gameboard
-  // create a Vertical? checkbox
-  // create a submit button which returns an array(5) structured like follows;
-  //  [ [ length: Number, isVertical: Boolean, [coord1, coord2] ], next item ]
-  // for loop array 5 to add ships to player gameboard
+  const playerMoves = await playerMovesForm(playerOneGameboard);
+
   // playerOneGameboard.addShipToGameboard(5, false, [1, 1]);
 
-  console.log(playerMoves);
-
-  for (let i = 0; i < playerMoves.length; i += 1) {
-    const length = playerMoves[i][0];
-    const isVertical = playerMoves[i][1];
-    const startCoord = playerMoves[i][2];
-
-    playerOneGameboard.addShipToGameboard(length, isVertical, startCoord);
-  }
+  //screw the array just put a gameboard into the function and return the completed gameboard
 
   const playerTwoGameboard = new Gameboard();
   playerTwoGameboard.generateComputerPositions(playerTwoGameboard);
@@ -39,7 +26,7 @@ async function setupPlayers(playerName) {
   const computerName = getComputerName();
 
   // Create player 1
-  playerOne = new Player(playerName, playerOneGameboard, false);
+  playerOne = new Player(playerName, playerMoves, false);
   // Create player 2 (computer)
   playerTwo = new Player(computerName, playerTwoGameboard, true);
 
