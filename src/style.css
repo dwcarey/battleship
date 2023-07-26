@@ -144,25 +144,77 @@ body {
   padding: 5vw;
   background-color: blueviolet;
   border: 3px solid rgb(9, 7, 12);
+  width: 60vw;
+  height: 60vh;
+
+display: grid;
+grid-template-columns: 1fr 1fr;
+grid-template-rows: 0.5fr 1fr 1fr 2fr;
+
+justify-items: center;
+align-items: center;
 }
 
 .shipDisplay {
-  width: 10vh;
-  height: 10vh;
+  background-color: black;
+  grid-column: span 2;
+  grid-row-start: 2;
+}
+.ship-5.horizontal {
+  height: 3vw;
+  width: 15vw;
 }
 
-.ship-5 {
-  background-color: aliceblue;
+.ship-5.vertical {
+  height: 15vw;
+  width: 3vw;
 }
 
-.ship-4 {
-  background-color: rgb(190, 11, 190);
+.ship-4.horizontal {
+  height: 3vw;
+  width: 12vw;
 }
 
-.ship-3 {
-  background-color: rgb(157, 255, 0);
+.ship-4.vertical {
+  height: 12vw;
+  width: 3vw;
 }
 
-.ship-2 {
-  background-color: rgb(164, 144, 255);
+.ship-3.horizontal {
+  height: 3vw;
+  width: 9vw;
+}
+
+.ship-3.vertical {
+  height: 9vw;
+  width: 3vw;
+}
+
+.ship-2.horizontal {
+  height: 3vw;
+  width: 6vw;
+}
+
+.ship-2.vertical {
+  height: 6vw;
+  width: 3vw;
+}
+
+.verticalButton {
+  border-radius: 3vw;
+  height: 5vh;
+  width: 20vw;
+
+  grid-column: span 2;
+  grid-row-start:3;
+}
+
+.formBoardHolder {
+  grid-column: span 2;
+  grid-row-start: 4;
+}
+
+.shipText {
+  grid-row-start: 1;
+  grid-column: span 2;
 }
