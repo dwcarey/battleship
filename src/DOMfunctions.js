@@ -80,10 +80,10 @@ function gameboardDOM(playerOne, playerTwo) {
   mainPlayerTwoContainer.appendChild(playerTwoBoardContainer);
 }
 
-function drawShips(playerOne) {
-  for (let i = 0; i < playerOne.board.board.length; i += 1) {
-    for (let j = 0; j < playerOne.board.board[i].length; j += 1) {
-      const currentSquare = playerOne.board.board[i][j];
+function drawShips(board) {
+  for (let i = 0; i < board.board.length; i += 1) {
+    for (let j = 0; j < board.board[i].length; j += 1) {
+      const currentSquare = board.board[i][j];
       const currentSquareDOM = document.getElementById(`square-${i}-${j}`);
       if (currentSquare instanceof Ship) {
         currentSquareDOM.classList.add('shipSquare');
@@ -211,7 +211,7 @@ function getComputerName() {
 }
 
 
-    // Declare and initialize the isVertical variable
+    // Declare and initialise the isVertical variable
     let isVertical = false;
     
 // Create the ship display element
@@ -221,6 +221,13 @@ shipDisplay.classList.add('shipDisplay');
 // Helper function to update the ship display class
 function updateShipDisplay(shipSize) {
   shipDisplay.className = `shipDisplay ship-${shipSize} ${isVertical ? 'vertical' : 'horizontal'}`;
+}
+
+const shipText = document.createElement('p');
+shipText.classList.add('shipText');
+
+function updateShipText(shipName, shipLength) {
+  shipText.textContent = `Place your ${shipName}, ${shipLength} length`;
 }
 
 // Create the playerMovesForm function
@@ -246,6 +253,7 @@ function playerMovesForm(gameboard) {
 
     // Generate DOM elements for gameboard
     const playerOneBoardContainer = document.createElement('div');
+    playerOneBoardContainer.classList.add('formBoardHolder');
 
 
     // Helper function to create square elements
@@ -261,9 +269,15 @@ function playerMovesForm(gameboard) {
         
         if (shipSize && gameboard.isValidMove(shipSize, isVertical, coordinates)) {
           gameboard.addShipToGameboard(shipSize, isVertical, coordinates);
+          drawShips(gameboard);
+          
+          // Update the ship display to NEXT placed ship
+          updateShipDisplay([5, 4, 3, 3, 2][gameboard.shipsOnBoard.length]);
 
-          // Update the ship display based on the placed ship
-          updateShipDisplay(shipSize);
+              //update ship text
+              updateShipText(['Carrier', 'Battleship', 'Submarine',
+              'Cruiser', 'Destroyer'][gameboard.shipsOnBoard.length],
+              [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length]);
 
           // Check if all ships have been placed
           if (gameboard.shipsOnBoard.length === 5) {
@@ -296,15 +310,24 @@ function playerMovesForm(gameboard) {
     // Create the "Is Vertical?" button
     const toggleButton = document.createElement('button');
     toggleButton.textContent = 'Is Vertical?';
+    toggleButton.classList.add('verticalButton');
+
     toggleButton.addEventListener('click', () => {
       isVertical = !isVertical; // Toggle the boolean value
+      updateShipDisplay([5, 4, 3, 3, 2][gameboard.shipsOnBoard.length]);
     });
 
     // Append the ship display to the form container
     formContainer.appendChild(shipDisplay);
+    updateShipDisplay(5);
+              //update ship text
+              updateShipText(['Carrier', 'Battleship', 'Submarine',
+              'Cruiser', 'Destroyer'][gameboard.shipsOnBoard.length],
+              [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length]);
 
     // Append the toggle button to the form container
     formContainer.appendChild(toggleButton);
+    formContainer.appendChild(shipText);
 
     // Append the playerOneBoardContainer to the form container
     formContainer.appendChild(playerOneBoardContainer);

@@ -32,7 +32,7 @@ async function setupPlayers(playerName) {
 
   // Draw gameboards
   gameboardDOM(playerOne, playerTwo);
-  drawShips(playerOne);
+  drawShips(playerOne.board);
 }
 
 async function gameSetup() {
