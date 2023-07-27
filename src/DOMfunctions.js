@@ -264,20 +264,15 @@ function playerMovesForm(gameboard) {
 
       // Add event listener for ship placement
       square.addEventListener('click', () => {
-        const shipSize = gameboard.shipsOnBoard.length < 5 ? [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length] : null;
+        const shipSize = gameboard.shipsOnBoard.length < 5 ? 
+        [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length] : null;
         const coordinates = [row, column];
         
         if (shipSize && gameboard.isValidMove(shipSize, isVertical, coordinates)) {
           gameboard.addShipToGameboard(shipSize, isVertical, coordinates);
-          drawShips(gameboard);
-          
-          // Update the ship display to NEXT placed ship
-          updateShipDisplay([5, 4, 3, 3, 2][gameboard.shipsOnBoard.length]);
 
-              //update ship text
-              updateShipText(['Carrier', 'Battleship', 'Submarine',
-              'Cruiser', 'Destroyer'][gameboard.shipsOnBoard.length],
-              [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length]);
+          // Update the ship display based on the placed ship
+          updateShipDisplay(shipSize);
 
           // Check if all ships have been placed
           if (gameboard.shipsOnBoard.length === 5) {
