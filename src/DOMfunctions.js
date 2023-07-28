@@ -262,6 +262,18 @@ function playerMovesForm(gameboard) {
       square.id = `square-${row}-${column}`;
       square.classList.add('square');
 
+      //add event listener for hover
+
+      square.addEventListener('mouseover', () => {
+        const coordinates = [row, column];
+        const shipSize = gameboard.shipsOnBoard.length
+        < 5 ? [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length] : null;
+
+        if (gameboard.isValidMove(shipSize, isVertical, coordinates)) {
+          square.classList.add('valid');
+        }
+      });
+
       // Add event listener for ship placement
       square.addEventListener('click', () => {
         const shipSize = gameboard.shipsOnBoard.length < 5 ? [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length] : null;
