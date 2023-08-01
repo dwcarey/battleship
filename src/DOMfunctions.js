@@ -272,6 +272,15 @@ function playerMovesForm(gameboard) {
         if (gameboard.isValidMove(shipSize, isVertical, coordinates)) {
           square.classList.add('valid');
         }
+
+        else {
+          square.classList.add('invalid');
+        }
+      });
+
+      square.addEventListener('mouseout', () => {
+        square.classList.remove('invalid');
+        square.classList.remove('valid');
       });
 
       // Add event listener for ship placement
@@ -293,7 +302,7 @@ function playerMovesForm(gameboard) {
 
           // Check if all ships have been placed
           if (gameboard.shipsOnBoard.length === 5) {
-            // Clean up UI
+            // remove UI
             formContainer.remove();
             overlay.remove();
 
