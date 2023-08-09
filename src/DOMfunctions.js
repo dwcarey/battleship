@@ -1,3 +1,5 @@
+import { doc } from 'prettier';
+
 const Ship = require('./ship');
 const Gameboard = require('./gameboard');
 
@@ -132,6 +134,17 @@ function playerNameForm() {
 
     // Create the form element
     const form = document.createElement('form');
+    form.id = 'nameForm';
+
+    //create welcome header and paragraph text
+    const headerText = document.createElement('h2');
+    headerText.textContent = 'Welcome to BATTLESHIP!';
+    const paraText = document.createElement('p');
+    paraText.textContent = 'Enter your name below and click Submit to begin';
+    paraText.id = 'paraText';
+
+    formContainer.appendChild(headerText);
+    formContainer.appendChild(paraText);
 
     // Create the text input for the player name
     const playerNameInput = document.createElement('input');
@@ -139,12 +152,14 @@ function playerNameForm() {
     playerNameInput.name = 'playerName';
     playerNameInput.placeholder = 'Enter your name';
     playerNameInput.maxLength = 30;
+    playerNameInput.id = 'playerNameInput';
     form.appendChild(playerNameInput);
 
     // Create the submit button
     const submitButton = document.createElement('input');
     submitButton.type = 'submit';
     submitButton.value = 'Submit';
+    submitButton.id = 'nameSubmit';
     form.appendChild(submitButton);
 
     // Add the form to the form container

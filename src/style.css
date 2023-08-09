@@ -80,6 +80,50 @@ body {
   z-index: 9;
 }
 
+h2 {
+  font-size: 5rem;
+  font-weight: 700;
+  grid-column: span 2;
+  color: rgb(0, 12, 65);
+}
+
+#paraText {
+  font-size: 2rem;
+  font-weight: 500;
+  grid-column: span 2;
+  text-align: center;
+  color: rgb(0, 12, 65);
+}
+
+#nameSubmit {
+width: 25vw;
+height: 10vh;
+margin-left: 2vw;
+padding: 0;
+border: 0;
+font-size: 2.5rem;
+text-align: center;
+background-color: rgb(0, 12, 65);
+color: rgb(80, 150, 255);
+border-radius: 2rem;
+}
+
+#playerNameInput {
+  width: 25vw;
+  height: 10vh;
+  padding: 0;
+border: 0;
+color: rgb(0, 12, 65);
+font-size: 2.5rem;
+text-align: center;
+border-radius: 2rem;
+}
+
+#nameForm {
+  grid-column: span 2;
+  grid-row-start: 4;
+}
+
 .gameboardContainer {
   grid-column: span 1;
   display: flex;
@@ -156,10 +200,10 @@ body {
   z-index: 9;
   transform: translate(-50%, -50%);
   padding: 5vw;
-  background-color: blueviolet;
-  border: 3px solid rgb(9, 7, 12);
-  width: 60vw;
-  height: 60vh;
+  background-color: rgb(80, 150, 255);
+  border: 3px solid rgb(0, 12, 65);
+  width: 80vw;
+  height: 80vh;
 
 display: grid;
 grid-template-columns: 1fr 1fr;
