@@ -137,7 +137,7 @@ function playerNameForm() {
     form.id = 'nameForm';
 
     //create welcome header and paragraph text
-    const headerText = document.createElement('h2');
+    const headerText = document.createElement('h1');
     headerText.textContent = 'Welcome to BATTLESHIP!';
     const paraText = document.createElement('p');
     paraText.textContent = 'Enter your name below and click Submit to begin';
