@@ -210,10 +210,9 @@ function getComputerName() {
   return computerName;
 }
 
+// Declare and initialise the isVertical variable
+let isVertical = false;
 
-    // Declare and initialise the isVertical variable
-    let isVertical = false;
-    
 // Create the ship display element
 const shipDisplay = document.createElement('div');
 shipDisplay.classList.add('shipDisplay');
@@ -255,14 +254,13 @@ function playerMovesForm(gameboard) {
     const playerOneBoardContainer = document.createElement('div');
     playerOneBoardContainer.classList.add('formBoardHolder');
 
-
     // Helper function to create square elements
     function createSquare(row, column) {
       const square = document.createElement('div');
       square.id = `square-${row}-${column}`;
       square.classList.add('square');
 
-      //add event listener for hover
+      // add event listener for hover
 
       square.addEventListener('mouseover', () => {
         const coordinates = [row, column];
@@ -271,23 +269,56 @@ function playerMovesForm(gameboard) {
 
         if (gameboard.isValidMove(shipSize, isVertical, coordinates)) {
           square.classList.add('valid');
-        }
 
-        else {
+          for (let i = shipSize - 1; i > 0; i -= 1) {
+            if (isVertical) {
+              const additionalSquare = document
+                .querySelector(`#square-${coordinates[0] + i}-${coordinates[1]}`);
+              additionalSquare.classList.add('valid');
+            } else {
+              const additionalSquare = document
+                .querySelector(`#square-${coordinates[0]}-${coordinates[1] + i}`);
+              additionalSquare.classList.add('valid');
+            }
+          }
+        } else {
           square.classList.add('invalid');
-        }
+       }
       });
 
       square.addEventListener('mouseout', () => {
+        const shipSize = gameboard.shipsOnBoard.length
+        < 5 ? [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length] : null;
+        const coordinates = [row, column];
         square.classList.remove('invalid');
         square.classList.remove('valid');
+
+        for (let i = shipSize - 1; i > 0; i -= 1) {
+          if (isVertical) {
+            const additionalSquare = document
+              .querySelector(`#square-${coordinates[0] + i}-${coordinates[1]}`);
+              if (additionalSquare !== null) {
+                additionalSquare.classList.remove('valid');
+                additionalSquare.classList.remove('invalid');
+                  }
+          } else {
+            const additionalSquare = document
+              .querySelector(`#square-${coordinates[0]}-${coordinates[1] + i}`);
+
+              if (additionalSquare !== null) {
+            additionalSquare.classList.remove('valid');
+            additionalSquare.classList.remove('invalid');
+              }
+          }
+        }
+
       });
 
       // Add event listener for ship placement
       square.addEventListener('click', () => {
         const shipSize = gameboard.shipsOnBoard.length < 5 ? [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length] : null;
         const coordinates = [row, column];
-        
+
         if (shipSize && gameboard.isValidMove(shipSize, isVertical, coordinates)) {
           gameboard.addShipToGameboard(shipSize, isVertical, coordinates);
           drawShips(gameboard);
@@ -295,10 +326,12 @@ function playerMovesForm(gameboard) {
           // Update the ship display to NEXT placed ship
           updateShipDisplay([5, 4, 3, 3, 2][gameboard.shipsOnBoard.length]);
 
-              //update ship text
-              updateShipText(['Carrier', 'Battleship', 'Submarine',
+          // update ship text
+          updateShipText(
+            ['Carrier', 'Battleship', 'Submarine',
               'Cruiser', 'Destroyer'][gameboard.shipsOnBoard.length],
-              [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length]);
+            [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length],
+          );
 
           // Check if all ships have been placed
           if (gameboard.shipsOnBoard.length === 5) {
@@ -341,10 +374,12 @@ function playerMovesForm(gameboard) {
     // Append the ship display to the form container
     formContainer.appendChild(shipDisplay);
     updateShipDisplay(5);
-              //update ship text
-              updateShipText(['Carrier', 'Battleship', 'Submarine',
-              'Cruiser', 'Destroyer'][gameboard.shipsOnBoard.length],
-              [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length]);
+    // update ship text
+    updateShipText(
+      ['Carrier', 'Battleship', 'Submarine',
+        'Cruiser', 'Destroyer'][gameboard.shipsOnBoard.length],
+      [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length],
+    );
 
     // Append the toggle button to the form container
     formContainer.appendChild(toggleButton);
@@ -354,11 +389,6 @@ function playerMovesForm(gameboard) {
     formContainer.appendChild(playerOneBoardContainer);
   });
 }
-
-
-
-
-
 
 export {
   firstDOM, gameboardDOM, drawShips, drawHits,
