@@ -51,15 +51,18 @@ table {
 body {
   display: flex;
   justify-content: center;
+  background-color: rgb(0, 12, 65);
 }
 
 #contentContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 80vw;
+  height: 80vh;
   background-color: aqua;
   border: 3px solid red;
   justify-items: center;
+  margin-top: 5vh;
 }
 
 #titleContainer {
@@ -70,9 +73,6 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-.gameboardContainer > div {
-  border: 1px solid rgb(19, 19, 19);
 }
 
 .formBoardHolder {
@@ -151,9 +151,11 @@ border-radius: 2rem;
 
 .square {
   background-color: rgb(12, 166, 255);
-  border: 1px solid rgb(19, 19, 19);
   width: min(3vh, 3vw);
   height: min(3vh, 3vw);
+  box-shadow: 
+    0 0 0 1px rgb(19, 19, 19),
+    0 0 0 1px rgb(19, 19, 19) inset;
 }
 
 .valid {
@@ -186,7 +188,7 @@ border-radius: 2rem;
 }
 
 .overlay {
-  background-color: rgb(0, 0, 0, 0.2);
+  background-color: rgb(0, 12, 65);
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -201,9 +203,9 @@ border-radius: 2rem;
   transform: translate(-50%, -50%);
   padding: 5vw;
   background-color: rgb(80, 150, 255);
-  border: 3px solid rgb(0, 12, 65);
   width: 80vw;
   height: 80vh;
+  border-radius: 5vw;
 
 display: grid;
 grid-template-columns: 1fr 1fr;
@@ -259,10 +261,15 @@ align-items: center;
 }
 
 .verticalButton {
-  border-radius: 3vw;
-  height: 5vh;
-  width: 20vw;
-
+  width: 25vw;
+  height: 10vh;
+  padding: 0;
+  border: 0;
+  font-size: 3vw;
+  text-align: center;
+  background-color: rgb(0, 12, 65);
+  color: rgb(80, 150, 255);
+  border-radius: 2rem;
   grid-column: span 1;
   grid-row-start: 3;
 }
@@ -272,7 +279,21 @@ align-items: center;
   grid-row-start: 2;
 }
 
-.shipText {
+#formTextContainer {
   grid-row-start: 1;
-  grid-column: span 1;
+  grid-column: span 2;
 }
+
+h3 {
+  font-size: 8vw;
+  color: rgb(0, 12, 65);
+  text-align: center;
+}
+
+.shipText {
+  font-size: 4vw;
+  color: rgb(0, 12, 65);
+  text-align: center;
+  margin-top: 3vh;
+}
+

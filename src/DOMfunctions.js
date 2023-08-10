@@ -241,7 +241,7 @@ const shipText = document.createElement('p');
 shipText.classList.add('shipText');
 
 function updateShipText(shipName, shipLength) {
-  shipText.textContent = `Place your ${shipName}, ${shipLength} length`;
+  shipText.textContent = `${shipName}, ${shipLength} length`;
 }
 
 // Create the playerMovesForm function
@@ -378,7 +378,7 @@ function playerMovesForm(gameboard) {
 
     // Create the "Is Vertical?" button
     const toggleButton = document.createElement('button');
-    toggleButton.textContent = 'Is Vertical?';
+    toggleButton.textContent = 'Rotate Ship';
     toggleButton.classList.add('verticalButton');
 
     toggleButton.addEventListener('click', () => {
@@ -396,9 +396,20 @@ function playerMovesForm(gameboard) {
       [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length],
     );
 
+    //create a text container
+    const formTextContainer = document.createElement('div');
+    formTextContainer.id = 'formTextContainer';
+    
+    const formHeaderText = document.createElement('h3');
+    formHeaderText.textContent = 'Place your ships!';
+
+    formTextContainer.appendChild(formHeaderText);
+    formTextContainer.appendChild(shipText);
+
+
     // Append the toggle button to the form container
     formContainer.appendChild(toggleButton);
-    formContainer.appendChild(shipText);
+    formContainer.appendChild(formTextContainer);
 
     // Append the playerOneBoardContainer to the form container
     formContainer.appendChild(playerOneBoardContainer);
