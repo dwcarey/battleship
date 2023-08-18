@@ -2,6 +2,7 @@ import './style.css';
 import {
   drawHits, drawShips, firstDOM, gameboardDOM,
   playerNameForm, getComputerName, playerMovesForm,
+  drawTurnText,
 } from './DOMfunctions';
 
 const Gameboard = require('./gameboard');
@@ -85,8 +86,9 @@ async function gameLoop(playerOne, playerTwo) {
 
 async function playerTurn(currentPlayer, opponent) {
   const coords = await currentPlayer.getTurnCoordinates(opponent);
-  opponent.board.receiveHit(coords);
+  const turnText = opponent.board.receiveHit(coords);
   drawHits(playerOne, playerTwo);
+  drawTurnText(currentPlayer, opponent, coords, turnText);
 
   if (!currentPlayer.isComputerPlayer) {
     await new Promise((resolve) => setTimeout(resolve, 1000));

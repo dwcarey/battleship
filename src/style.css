@@ -57,10 +57,11 @@ body {
 #contentContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 2fr 2fr;
   width: 80vw;
-  height: 80vh;
-  background-color: aqua;
-  border: 3px solid red;
+  height: 65vh;
+  background-color: rgb(112 219 219);
+  border-radius: 3vw;
   justify-items: center;
   margin-top: 5vh;
 }
@@ -81,7 +82,7 @@ body {
 }
 
 h1 {
-  font-size: 6vw;
+  font-size: 5vw;
   font-weight: 700;
   grid-column: span 2;
   color: rgb(0, 12, 65);
@@ -96,12 +97,12 @@ h1 {
 }
 
 #nameSubmit {
-width: 35vw;
+width: 30vw;
 height: 12vh;
 margin-left: 2vw;
 padding: 0;
 border: 0;
-font-size: 4vw;
+font-size: 3.5vw;
 text-align: center;
 background-color: rgb(0, 12, 65);
 color: rgb(80, 150, 255);
@@ -109,12 +110,12 @@ border-radius: 2rem;
 }
 
 #playerNameInput {
-  width: 35vw;
+  width: 30vw;
   height: 12vh;
   padding: 0;
 border: 0;
 color: rgb(0, 12, 65);
-font-size: 4vw;
+font-size: 3.5vw;
 text-align: center;
 border-radius: 2rem;
 }
@@ -138,6 +139,7 @@ border-radius: 2rem;
   grid-column: span 2;
   display: grid;
   grid-template-columns: 35vw 5vw 35vw;
+  grid-template-rows: 5vh 5vh;
   text-align: center;
   font-size: 2vw;
   width: 75vw;
@@ -203,8 +205,8 @@ border-radius: 2rem;
   transform: translate(-50%, -50%);
   padding: 5vw;
   background-color: rgb(80, 150, 255);
-  width: 80vw;
-  height: 80vh;
+  width: 70vw;
+  height: 70vh;
   border-radius: 5vw;
 
 display: grid;
@@ -261,8 +263,8 @@ align-items: center;
 }
 
 .verticalButton {
-  width: 25vw;
-  height: 10vh;
+  width: 22vw;
+  height: 9vh;
   padding: 0;
   border: 0;
   font-size: 3vw;
@@ -273,6 +275,33 @@ align-items: center;
   grid-column: span 1;
   grid-row-start: 3;
 }
+
+#playerOneNameText {
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+
+#playerTwoNameText {
+  grid-column-start: 3;
+  grid-row-start: 1;
+}
+
+#playerOneTurnText {
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+
+#playerTwoTurnText {
+  grid-column-start: 3;
+  grid-row-start: 2;
+}
+
+#VSText {
+  grid-column-start: 2;
+  grid-row-start: 1;
+}
+
+
 
 .formBoardHolder {
   grid-row: span 2 / 4;

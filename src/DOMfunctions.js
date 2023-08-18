@@ -18,8 +18,18 @@ function firstDOM() {
   const playerTwoGameboardContainer = document.createElement('div');
   playerTwoGameboardContainer.id = 'playerTwoGameboardContainer';
   playerTwoGameboardContainer.classList.add('gameboardContainer');
+
   const informationContainer = document.createElement('div');
   informationContainer.id = 'informationContainer';
+
+  const playerOneTurnText = document.createElement('h4');
+  const playerTwoTurnText = document.createElement('h4');
+
+  playerOneTurnText.id = 'playerOneTurnText';
+  playerTwoTurnText.id = 'playerTwoTurnText';
+
+  informationContainer.appendChild(playerOneTurnText);
+  informationContainer.appendChild(playerTwoTurnText);
 
   contentContainer.appendChild(titleContainer);
   contentContainer.appendChild(playerOneGameboardContainer);
@@ -31,12 +41,15 @@ function firstDOM() {
 
 function gameboardDOM(playerOne, playerTwo) {
   const playerOneNameText = document.createElement('h2');
+  playerOneNameText.id = 'playerOneNameText';
   playerOneNameText.textContent = playerOne.playerName;
   const playerTwoNameText = document.createElement('h2');
+  playerTwoNameText.id = 'playerTwoNameText';
   playerTwoNameText.textContent = playerTwo.playerName;
 
   const informationContainer = document.getElementById('informationContainer');
   const VStext = document.createElement('h2');
+  VStext.id = 'VSText';
   VStext.textContent = 'VS.';
   informationContainer.appendChild(playerOneNameText);
   informationContainer.appendChild(VStext);
@@ -171,7 +184,9 @@ function playerNameForm() {
 
     // Handle form submission
     form.addEventListener('submit', (event) => {
-      event.preventDefault(); // Prevent form submission
+      event.preventDefault();
+
+      if (playerNameInput.value !== '') {
 
       const playerName = playerNameInput.value;
 
@@ -180,6 +195,10 @@ function playerNameForm() {
       overlay.remove();
 
       resolve(playerName);
+      }
+      else {
+        //
+      }
     });
   });
 }
@@ -348,7 +367,7 @@ function playerMovesForm(gameboard) {
             [5, 4, 3, 3, 2][gameboard.shipsOnBoard.length],
           );
 
-          // Check if all ships have been placed
+            // Check if all ships have been placed
           if (gameboard.shipsOnBoard.length === 5) {
             // remove UI
             formContainer.remove();
@@ -414,9 +433,29 @@ function playerMovesForm(gameboard) {
     // Append the playerOneBoardContainer to the form container
     formContainer.appendChild(playerOneBoardContainer);
   });
+
+
 }
+  function drawTurnText(player, opponent, coords, turnText) {
+    console.log(turnText);
+
+    const computerText = document.querySelector('#playerTwoTurnText');
+    const playerText = document.querySelector('#playerOneTurnText');
+
+    if (player.isComputerPlayer) {
+      computerText.replaceChildren();
+      computerText.textContent = `Last Turn: ${player.playerName} shot ${coords} and ${turnText}`;
+    }
+
+    if (!player.isComputerPlayer) {
+      playerText.replaceChildren();
+      playerText.textContent = `Last Turn: ${player.playerName} shot ${coords} and ${turnText}`;
+    }
+
+  };
 
 export {
   firstDOM, gameboardDOM, drawShips, drawHits,
   playerNameForm, getComputerName, playerMovesForm,
+  drawTurnText,
 };
